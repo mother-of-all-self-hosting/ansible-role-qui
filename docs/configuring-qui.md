@@ -29,7 +29,7 @@ See the project's [documentation](https://getqui.com/docs/intro/) to learn what 
 
 qui does not include a BitTorrent client of its own. It needs at least one qBittorrent instance (version 4.3.9 or newer) to manage, which it reaches over qBittorrent's Web API.
 
-If you are looking for an Ansible role for qBittorrent, you can check out [ansible-role-qbittorrent](https://github.com/mother-of-all-self-hosting/ansible-role-qbittorrent). See [below](#connecting-qui-to-qbittorrent) for how to connect the two.
+If you are looking for an Ansible role for qBittorrent, you can check out [ansible-role-qbittorrent](https://github.com/mother-of-all-self-hosting/ansible-role-qbittorrent). Refer to [this section](#connecting-qui-to-qbittorrent) for how to connect the two.
 
 ## Adjusting the playbook configuration
 
@@ -84,7 +84,7 @@ qui_systemd_wanted_services_list_custom:
 
 #### Enabling Local Filesystem Access (optional)
 
-Some features of qui (orphan file scanning, hardlink/reflink based cross-seeding, content file downloads, MediaInfo, some automation conditions, etc.) read qBittorrent's files directly, rather than through qBittorrent's Web API. For these to work, qui needs to see qBittorrent's download directory at exactly the same path as qBittorrent sees it. See [this page](https://getqui.com/docs/features/instance-settings/#local-filesystem-access) on the project's documentation for details.
+Some features of qui (orphan file scanning, hardlink/reflink based cross-seeding, content file downloads, MediaInfo, some automation conditions, etc.) read qBittorrent's files directly, rather than through qBittorrent's Web API. For these to work, qui needs to see qBittorrent's download directory at exactly the same path as qBittorrent sees it. Refer to [this page](https://getqui.com/docs/features/instance-settings/#local-filesystem-access) on the documentation for details.
 
 To mount the download directory of the qBittorrent instance into the qui container at that path, add the following configuration to your `vars.yml` file:
 
@@ -107,7 +107,7 @@ Take a look at:
 
 - [`defaults/main.yml`](../defaults/main.yml) for some variables that you can customize via your `vars.yml` file. You can override settings (even those that don't have dedicated playbook variables) using the `qui_environment_variables_additional_variables` variable
 
-See [this page](https://getqui.com/docs/configuration/environment/) for a complete list of qui's config options that you could put in `qui_environment_variables_additional_variables`.
+Refer to [this page](https://getqui.com/docs/configuration/environment/) on the documentation for a complete list of qui's config options that you can put in `qui_environment_variables_additional_variables`.
 
 >[!NOTE]
 > By default qui's session cookie is marked as `Secure` when qui is served over HTTPS via Traefik, so that it is never sent over plain HTTP. If you also access qui over plain HTTP (e.g. via `qui_container_http_host_bind_port`), you need to set `qui_environment_variables_qui_session_cookie_secure: false` to be able to log in there.
@@ -170,7 +170,7 @@ After adding the instance, you can manage qBittorrent from qui. As qui is capabl
 
 qui includes a reverse proxy for qBittorrent's Web API. Other applications can be pointed at it instead of at qBittorrent, so that they do not need to know qBittorrent's credentials. It also answers some of their frequent requests from qui's own cache, which reduces the load on qBittorrent.
 
-To use it, open `Settings > Client Proxy` on qui and create a client API key for each application. See [this page](https://getqui.com/docs/features/reverse-proxy/) on the project's documentation for details about how to set up each application with the generated proxy URL.
+To use it, open `Settings > Client Proxy` on qui and create a client API key for each application. Refer to [this page](https://getqui.com/docs/features/reverse-proxy/) on the documentation for details about how to set up each application with the generated proxy URL.
 
 For example, to add it to your [Sonarr](https://sonarr.tv/) or [Radarr](https://radarr.video/) instance, navigate to the form at `Settings > Download Clients > Add > qBittorrent` and do the following:
 
