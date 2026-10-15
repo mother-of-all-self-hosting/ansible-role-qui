@@ -28,7 +28,7 @@ traefik.http.middlewares.{{ qui_identifier }}-slashless-redirect.redirectregex.r
 
 {#
   Intentionally not adding a stripPrefix middleware.
-  qui serves itself under the same prefix it sees in the QUI__BASE_URL environment variable (see `env.j2`).
+  qui serves itself under the prefix via QUI__BASE_URL (see `env.j2`).
 #}
 
 {% if qui_container_labels_traefik_additional_request_headers.keys() | length > 0 %}

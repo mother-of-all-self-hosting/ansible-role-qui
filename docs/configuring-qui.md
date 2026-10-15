@@ -64,7 +64,7 @@ qui_hostname: "example.com"
 After adjusting the hostname, make sure to adjust your DNS records to point the domain to your server.
 
 >[!NOTE]
-> The `qui_path_prefix` variable can be adjusted to host under a subpath (e.g. `qui_path_prefix: /qui`). qui itself is then configured to serve everything (the web UI, its API and its qBittorrent proxy) under that path.
+> The `qui_path_prefix` variable can be adjusted to host under a subpath (e.g. `qui_path_prefix: /qui`).
 
 ### Connecting qui to qBittorrent
 
