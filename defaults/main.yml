@@ -58,8 +58,7 @@ qui_container_http_port: 7476
 # The role does not create these networks, so make sure they already exist.
 # Use this to expose this container to another reverse proxy, which runs in a different container network,
 # or to let qui reach a qBittorrent instance which runs in a different container network.
-qui_container_additional_networks: "{{ (qui_container_additional_networks_default + qui_container_additional_networks_auto + qui_container_additional_networks_custom) | unique }}"
-qui_container_additional_networks_default: []
+qui_container_additional_networks: "{{ qui_container_additional_networks_auto + qui_container_additional_networks_custom }}"
 qui_container_additional_networks_auto: []
 qui_container_additional_networks_custom: []
 
@@ -137,7 +136,7 @@ qui_container_labels_additional_labels_custom: []
 # For non-Traefik setups, we use the default healthcheck interval (30s) to decrease overhead.
 qui_container_health_interval: "{{ '5s' if qui_container_labels_traefik_enabled else '30s' }}"
 
-# Specify the size of the container's tmpfs volume, mounted at /tmp.
+# Specify the size of the container's tmpfs volume (/tmp)
 # The container runs read-only, so /tmp is the only writable scratch space.
 # qui spools uploads through it (e.g. when importing a backup archive via the web UI),
 # so you may need to raise this value if importing a large backup fails.
@@ -202,13 +201,13 @@ qui_floc_optout_enabled: true
 qui_hsts_preload_enabled: false
 
 # List of systemd services that the qui systemd service depends on
-qui_systemd_required_services_list: "{{ (qui_systemd_required_services_list_default + qui_systemd_required_services_list_auto + qui_systemd_required_services_list_custom) | unique }}"
+qui_systemd_required_services_list: "{{ qui_systemd_required_services_list_default + qui_systemd_required_services_list_auto + qui_systemd_required_services_list_custom }}"
 qui_systemd_required_services_list_default: "{{ [devture_systemd_docker_base_docker_service_name] if devture_systemd_docker_base_docker_service_name else [] }}"
 qui_systemd_required_services_list_auto: []
 qui_systemd_required_services_list_custom: []
 
 # List of systemd services that the qui systemd service wants
-qui_systemd_wanted_services_list: "{{ (qui_systemd_wanted_services_list_default + qui_systemd_wanted_services_list_auto + qui_systemd_wanted_services_list_custom) | unique }}"
+qui_systemd_wanted_services_list: "{{ qui_systemd_wanted_services_list_default + qui_systemd_wanted_services_list_auto + qui_systemd_wanted_services_list_custom }}"
 qui_systemd_wanted_services_list_default: []
 qui_systemd_wanted_services_list_auto: []
 qui_systemd_wanted_services_list_custom: []
