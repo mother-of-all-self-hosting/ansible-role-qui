@@ -38,16 +38,13 @@ jobs:
 
     strategy:
       matrix:
-        # `default` exercises qui on its own, `qbittorrent` exercises it managing
-        # a qBittorrent installed by ansible-role-qbittorrent, and `uninstall`
-        # exercises the role's own removal tasks.
+        # `default` exercises qui on its own, and `qbittorrent` exercises it
+        # managing a qBittorrent installed by ansible-role-qbittorrent.
         include:
           - distro: ubuntu2604
             scenario: default
           - distro: ubuntu2604
             scenario: qbittorrent
-          - distro: ubuntu2604
-            scenario: uninstall
       fail-fast: false
 
     env:

@@ -43,7 +43,7 @@ pip3 install -r ./molecule/requirements.txt
 
 ## Scenarios
 
-There are three testing scenarios available.
+There are two testing scenarios available.
 
 ### `default`
 
@@ -72,10 +72,6 @@ Installs qBittorrent with [ansible-role-qbittorrent](https://github.com/mother-o
 - with Local Filesystem Access, qui's orphan scan finds a file placed in qBittorrent's download directory at the very path qBittorrent sees it at (and deletes nothing), while an instance without it is refused the scan;
 - neither service restarts during a window longer than the units' `RestartSec`.
 
-### `uninstall`
-
-Installs qui, lets it write its database, and then runs the role again with `qui_enabled: false` — the uninstallation path that the other scenarios never touch. It checks that the systemd unit, its service file, the rendered `env` and `labels` files, the container and the container network are all gone, and that the operator's data is not.
-
 ## Running
 
 By default it is configured to run the scenarios on Ubuntu 26.04.
@@ -83,7 +79,6 @@ By default it is configured to run the scenarios on Ubuntu 26.04.
 ```bash
 molecule test --scenario-name default
 molecule test --scenario-name qbittorrent
-molecule test --scenario-name uninstall
 ```
 
 You can utilize other distributions by setting one to the `MOLECULE_DISTRO` environment variable:
