@@ -252,6 +252,13 @@
             headers: "{{ qui_session_headers }}"
           register: qui_instance_preferences
 
+        # qui answers with a list of preference fields, not qBittorrent's own object.
+        - name: Pick the save path out of qui's preference fields
+          ansible.builtin.set_fact:
+            qui_instance_save_path: >-
+              {{ qui_instance_preferences.json | selectattr('key', 'equalto', 'save_path')
+                 | map(attribute='value') | first | default('?') }}
+
         # Everything qui reports here, it can only have obtained from the qBittorrent
         # the qBittorrent role installed: the version and the libtorrent 2.x build
         # of the image that role pins, and the default save path that role's
@@ -264,11 +271,11 @@
               - qui_instance_app_info.results | map(attribute='json.version') | unique | list == [qui_qbittorrent_version.content | trim]
               - qui_instance_app_info.results | map(attribute='json.webAPIVersion') | unique | list == [qui_qbittorrent_webapi_version.content | trim]
               - qui_instance_app_info.results[0].json.buildInfo.libtorrent is match('2\.')
-              - qui_instance_preferences.json.save_path == qui_qbittorrent_preferences.json.save_path
-              - qui_instance_preferences.json.save_path | regex_replace('/$', '') == qui_molecule_qbittorrent_download_bind_path
+              - qui_instance_save_path == qui_qbittorrent_preferences.json.save_path
+              - qui_instance_save_path | regex_replace('/$', '') == qui_molecule_qbittorrent_download_bind_path
             fail_msg: >-
               qui reports {{ qui_instance_app_info.results | map(attribute='json') | list | string | truncate(400) }}
-              and save path {{ qui_instance_preferences.json.save_path | default('?') }}, while qBittorrent
+              and save path {{ qui_instance_save_path }}, while qBittorrent
               itself reports {{ qui_qbittorrent_version.content | trim }} (Web API
               {{ qui_qbittorrent_webapi_version.content | trim }}) and save path
               {{ qui_qbittorrent_preferences.json.save_path }}
@@ -276,7 +283,7 @@
               qui connects to qBittorrent {{ qui_qbittorrent_version.content | trim }} (Web API
               {{ qui_qbittorrent_webapi_version.content | trim }}, libtorrent
               {{ qui_instance_app_info.results[0].json.buildInfo.libtorrent }}) by password and by
-              API key, and reads its save path of {{ qui_instance_preferences.json.save_path }} -
+              API key, and reads its save path of {{ qui_instance_save_path }} -
               while qBittorrent turns away anonymous callers
 
         # ------------------------------------------------------------------
