@@ -103,11 +103,11 @@ provisioner:
         # the qBittorrent role's own configuration overrides instead, quoted the
         # way qBittorrent writes it back, so that the override stays idempotent.
         qbittorrent_config_overrides_custom:
-          - section: Preferences
-            option: WebUI\Username
+          - section: WebUI
+            option: Username
             value: molecule-qbittorrent
-          - section: Preferences
-            option: WebUI\Password_PBKDF2
+          - section: WebUI
+            option: Password_PBKDF2
             value: '"@ByteArray(bW9sZWN1bGUtcWJ0LXNsdA==:mIHTduTrXZH1afEALerFUIn6LxTxOUGNDUUtd6lGoZ+SxONzR9juFlN+iK9Jj4hJ4rrVFaYFyEes80hNw7lmuA==)"'
   env:
     # Workaround for https://github.com/ansible/molecule/issues/4391
