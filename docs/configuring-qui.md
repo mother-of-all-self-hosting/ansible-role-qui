@@ -82,6 +82,8 @@ qui_systemd_wanted_services_list_custom:
   - "{{ qbittorrent_identifier }}.service"
 ```
 
+**Note**: if you use the MASH playbook, this is done for you.
+
 #### Enabling Local Filesystem Access (optional)
 
 Some features of qui (orphan file scanning, hardlink/reflink based cross-seeding, content file downloads, MediaInfo, some automation conditions, etc.) read qBittorrent's files directly, rather than through qBittorrent's Web API. For these to work, qui needs to see qBittorrent's download directory at exactly the same path as qBittorrent sees it. Refer to [this page](https://getqui.com/docs/features/instance-settings/#local-filesystem-access) on the documentation for details.
