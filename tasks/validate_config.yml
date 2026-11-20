@@ -12,9 +12,6 @@
   with_items:
     - qui_uid
     - qui_gid
-    - qui_hostname
-    - qui_path_prefix
-    - qui_container_network
 
 # qui is served under `qui_path_prefix` (it is handed to qui as `QUI__BASE_URL`) whether or not Traefik is in use,
 # so the value is checked here rather than only as part of the Traefik configuration below.
