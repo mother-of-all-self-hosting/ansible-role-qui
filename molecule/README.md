@@ -58,7 +58,7 @@ It first runs the same container image with none of the role's configuration, to
 - a freshly installed qui can still be claimed by an unauthenticated setup call, and refuses further ones once it has been;
 - the running process reports the version `qui_version` pins, matching the image tag and the image's OCI version label;
 - the port, base URL, session cookie attribute, log level, update-check setting and timezone qui is running with are the ones the role rendered into its env file — all of them deliberately different from what qui picks for itself;
-- an API key created over the API reads itself back, and exists as a row in the SQLite file at the host path the role bind-mounts;
+- an API key created over the API is accepted where a forged one was refused, and exists as a row in the SQLite file at the host path the role bind-mounts;
 - the service does not restart during a window longer than the unit's `RestartSec`.
 
 ### `qbittorrent`
