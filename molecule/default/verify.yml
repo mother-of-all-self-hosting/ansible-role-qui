@@ -593,7 +593,7 @@
         # ------------------------------------------------------------------
 
         # Cookie-authenticated writes must carry `X-Requested-With`, which is what
-        # qui's own web UI sends.
+        # qui's own web UI sends. Every key needs at least one permission.
         - name: Ask qui for an API key
           ansible.builtin.uri:
             url: "{{ qui_verify_base_url }}/api/api-keys"
@@ -604,29 +604,30 @@
             body_format: json
             body:
               name: "{{ qui_verify_api_key_name }}"
+              permissions:
+                - area: instances
+                  level: read
             status_code: [201]
           register: qui_created_key
 
         # A second way in, which is also the other half of the 401 asserted earlier:
         # the key qui itself issued is accepted where the invented one was not.
-        - name: List the API keys qui holds, with the API key instead of the session
+        - name: Ask qui for its instances with the API key qui issued
           ansible.builtin.uri:
-            url: "{{ qui_verify_base_url }}/api/api-keys"
+            url: "{{ qui_verify_base_url }}/api/instances"
             headers:
               X-API-Key: "{{ qui_created_key.json.key }}"
             status_code: [200]
-          register: qui_listed_keys
 
         - name: Assert the API key qui issued works where an invented one did not
           ansible.builtin.assert:
             that:
               - qui_created_key.json.key | length >= 32
-              - (qui_listed_keys.json | map(attribute='name') | list) == [qui_verify_api_key_name]
             fail_msg: >-
-              An API key qui issued did not read itself back
-              ({{ qui_listed_keys.json | string | truncate(200) }})
+              qui issued an API key of only {{ qui_created_key.json.key | length }} characters
             success_msg: >-
-              The API key qui issued lists itself, while the invented key earlier was refused with 401
+              The API key qui issued lists qui's instances, while the invented key earlier was
+              refused with 401
 
         # qui's own API could be answering out of anything it holds in memory. This
         # is the check that says the data landed in the SQLite file inside the
